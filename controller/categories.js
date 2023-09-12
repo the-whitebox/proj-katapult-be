@@ -7,7 +7,9 @@ const AddCategory = async (req, res) => {
       return res.status(400).json({ message: "category_name is required" });
     }
 
-    const existingCategory = await Categories.findOne({ category_name });
+    const existingCategory = await Categories.findOne({
+      category_name,
+    }).maxTimeMS(20000);
     if (existingCategory) {
       return res
         .status(400)
@@ -30,7 +32,7 @@ const AddCategory = async (req, res) => {
 
 const GetAllCategories = async (req, res) => {
   try {
-    const categories = await Categories.find();
+    const categories = await Categories.find().maxTimeMS(20000);
 
     if (categories.length > 0) {
       res.status(200).json({

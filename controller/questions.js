@@ -13,7 +13,9 @@ const AddQuestions = async (req, res) => {
       return res.status(400).json({ message: "question_type is required" });
     }
 
-    const existingQuestion = await Questions.findOne({ question });
+    const existingQuestion = await Questions.findOne({ question }).maxTimeMS(
+      20000
+    );
     if (existingQuestion) {
       return res.status(400).json({ message: `${question} already added` });
     }
@@ -41,7 +43,7 @@ const GetAllQuestions = async (req, res) => {
     if (category) {
       query.category = category;
     }
-    const questions = await Questions.find(query);
+    const questions = await Questions.find(query).maxTimeMS(20000);
     if (questions.length > 0) {
       res.status(200).json({
         data: questions,
