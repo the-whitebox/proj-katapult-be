@@ -16,7 +16,7 @@ const Registration = async (req, res) => {
     if (!role) {
       return res.status(400).json({ message: "role is required" });
     }
-    const existingUser = await Users.findOne({ email });
+    const existingUser = await Users.findOne({ email }).maxTimeMS(20000);
     const access_tokenDuration = 24 * 60 * 60;
     const refresh_tokenDuration = 30 * 24 * 60 * 60;
     const accessToken = jwt.sign(
