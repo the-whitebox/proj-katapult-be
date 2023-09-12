@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const router = require("./router/router");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -21,13 +21,9 @@ async function connectToMongoDB() {
 connectToMongoDB();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+app.use(cors());
 app.use("/", router);
 
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });
